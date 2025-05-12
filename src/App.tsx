@@ -1,25 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Suspense, useEffect, useState } from "react";
+import { useApi } from "./api/useApi";
+import { CircularProgress, Grid } from "@mui/material";
+import { SearchBar } from "./SearchBar/SearchBar";
+import { RepositoriesList } from "./RepositoriesList/RepositoriesList";
+import { Repository } from "./api/types";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Grid container spacing={2}>
+      <Grid size={12}>
+        <SearchBar />
+      </Grid>
+      <Grid size={12}>
+        <Suspense fallback={<CircularProgress />}>
+          <RepositoriesList />
+        </Suspense>
+      </Grid>
+    </Grid>
   );
 }
 
