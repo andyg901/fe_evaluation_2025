@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
-import { Repository } from "../api/types";
+import { useContext, useEffect, useState } from "react";
+import { Repository } from "../types";
 import { useApi } from "../api/useApi";
 import { RepositoriesTable } from "./RepositoriesTable";
 import { Grid } from "@mui/material";
+import { AppContext } from "../context/AppContext";
 
 interface RepositoriesListProps {
   searchQuery?: string;
@@ -11,12 +12,20 @@ interface RepositoriesListProps {
 export const RepositoriesList = ({}: RepositoriesListProps) => {
   const { fetchRepositories } = useApi();
   const [repos, setRepos] = useState<Repository[]>([]);
+  const { searchQuery } = useContext(AppContext);
 
   useEffect(() => {
-    fetchRepositories().then((repositories) => {
-      setRepos(repositories);
-    });
-  }, []);
+    const timeout = setTimeout(() => {
+      setRepos([]);
+      fetchRepositories(searchQuery).then((repositories) => {
+        setRepos(repositories);
+      });
+    }, 500);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [searchQuery]);
 
   return (
     <Grid size={8} mt={3} offset={2}>

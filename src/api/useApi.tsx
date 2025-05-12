@@ -1,6 +1,6 @@
 import { mapQueryResponse } from "./dataMapper";
 import { buildSearchQuery } from "./queryBuilder";
-import { Repository } from "./types";
+import { Repository } from "../types";
 
 type FetchRepositories = (searchQuery?: string) => Promise<Repository[]>;
 type UseApi = () => { fetchRepositories: FetchRepositories };

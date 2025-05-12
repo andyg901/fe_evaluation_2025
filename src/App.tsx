@@ -1,22 +1,29 @@
-import { Suspense, useEffect, useState } from "react";
-import { useApi } from "./api/useApi";
-import { CircularProgress, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import { SearchBar } from "./SearchBar/SearchBar";
 import { RepositoriesList } from "./RepositoriesList/RepositoriesList";
-import { Repository } from "./api/types";
+import { IAppState } from "./types";
+import { useState } from "react";
+import { AppContext } from "./context/AppContext";
 
 function App() {
+  const [appState, setAppState] = useState<IAppState>({
+    searchQuery: "",
+  });
+  const setSearchQuery = (query: string) => setAppState({ searchQuery: query });
+
   return (
-    <Grid container spacing={2}>
-      <Grid size={12}>
-        <SearchBar />
-      </Grid>
-      <Grid size={12}>
-        <Suspense fallback={<CircularProgress />}>
+    <AppContext.Provider
+      value={{ searchQuery: appState.searchQuery, setSearchQuery }}
+    >
+      <Grid container spacing={2}>
+        <Grid size={12}>
+          <SearchBar />
+        </Grid>
+        <Grid size={12}>
           <RepositoriesList />
-        </Suspense>
+        </Grid>
       </Grid>
-    </Grid>
+    </AppContext.Provider>
   );
 }
 

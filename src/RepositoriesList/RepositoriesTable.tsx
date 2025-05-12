@@ -1,5 +1,6 @@
 import {
   Box,
+  CircularProgress,
   Paper,
   SxProps,
   Table,
@@ -9,8 +10,12 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { Repository } from "../api/types";
-import { RestaurantOutlined, StarOutline } from "@mui/icons-material";
+import { Repository } from "../types";
+import {
+  LinkOutlined,
+  RestaurantOutlined,
+  StarOutline,
+} from "@mui/icons-material";
 
 interface RepositoriesTableProps {
   repos: Repository[];
@@ -34,12 +39,25 @@ export const RepositoriesTable = ({ repos }: RepositoriesTableProps) => {
           </TableRow>
         </TableHead>
         <TableBody>
+          {!repos.length && (
+            <TableRow>
+              <TableCell colSpan={3} align="center">
+                <CircularProgress />
+              </TableCell>
+            </TableRow>
+          )}
           {repos.map((row) => (
             <TableRow
               key={row.nameWithOwner}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell scope="row">{row.nameWithOwner}</TableCell>
+              <TableCell scope="row">
+                <a href={row.url} target="_blank">
+                  <Box sx={cellAlignment}>
+                    <LinkOutlined /> {row.nameWithOwner}
+                  </Box>
+                </a>
+              </TableCell>
               <TableCell>
                 <Box sx={cellAlignment}>
                   <StarOutline />
