@@ -29,7 +29,7 @@ const cellAlignment: SxProps = {
 
 export const RepositoriesTable = ({ repos }: RepositoriesTableProps) => {
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} data-testid="repositories-list:table">
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -40,7 +40,7 @@ export const RepositoriesTable = ({ repos }: RepositoriesTableProps) => {
         </TableHead>
         <TableBody>
           {!repos.length && (
-            <TableRow>
+            <TableRow data-testid="repositories-list:table:loader">
               <TableCell colSpan={3} align="center">
                 <CircularProgress />
               </TableCell>
@@ -50,8 +50,12 @@ export const RepositoriesTable = ({ repos }: RepositoriesTableProps) => {
             <TableRow
               key={row.nameWithOwner}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              data-testid="repositories-list:table:row"
             >
-              <TableCell scope="row">
+              <TableCell
+                scope="row"
+                data-testid="repositories-list:table:cell-name"
+              >
                 <a href={row.url} target="_blank">
                   <Box sx={cellAlignment}>
                     <LinkOutlined /> {row.nameWithOwner}

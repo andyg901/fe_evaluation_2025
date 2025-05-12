@@ -1,4 +1,6 @@
 import { Grid } from "@mui/material";
+import { NotificationsProvider } from "@toolpad/core/useNotifications";
+
 import { SearchBar } from "./SearchBar/SearchBar";
 import { RepositoriesList } from "./RepositoriesList/RepositoriesList";
 import { IAppState } from "./types";
@@ -15,14 +17,22 @@ function App() {
     <AppContext.Provider
       value={{ searchQuery: appState.searchQuery, setSearchQuery }}
     >
-      <Grid container spacing={2}>
-        <Grid size={12}>
-          <SearchBar />
+      <NotificationsProvider
+        slotProps={{
+          snackbar: {
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          },
+        }}
+      >
+        <Grid container spacing={2}>
+          <Grid size={12}>
+            <SearchBar />
+          </Grid>
+          <Grid size={12}>
+            <RepositoriesList />
+          </Grid>
         </Grid>
-        <Grid size={12}>
-          <RepositoriesList />
-        </Grid>
-      </Grid>
+      </NotificationsProvider>
     </AppContext.Provider>
   );
 }
