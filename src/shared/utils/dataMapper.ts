@@ -1,4 +1,5 @@
-import { GraphQlReponse, Repository } from "../types";
+import { Repository } from "../types/repository";
+import { GraphQlReponse } from "../types/api";
 
 export type MapQueryResponse = (data: GraphQlReponse) => Repository[];
 

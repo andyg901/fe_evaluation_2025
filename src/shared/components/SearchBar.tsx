@@ -1,11 +1,17 @@
 import { SearchOutlined } from "@mui/icons-material";
 import { Box, Grid, TextField } from "@mui/material";
-import { useContext } from "react";
-import { AppContext } from "../context/AppContext";
 
-export const SearchBar = () => {
-  const { searchQuery, setSearchQuery } = useContext(AppContext);
+interface SearchBarProps {
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+  helperText?: string;
+}
 
+export const SearchBar = ({
+  helperText,
+  searchQuery,
+  setSearchQuery,
+}: SearchBarProps) => {
   return (
     <Grid offset={2} size={8}>
       <Box sx={{ display: "flex", alignItems: "flex-end" }}>
@@ -16,7 +22,7 @@ export const SearchBar = () => {
           variant="standard"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          helperText={!searchQuery && 'Displaying results for "topic:react"'}
+          helperText={helperText}
           fullWidth
           data-testid="repositories-list:search-input"
         />

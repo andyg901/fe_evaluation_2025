@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react";
-import { Repository } from "../types";
-import { useApi } from "../api/useApi";
-import { RepositoriesTable } from "./RepositoriesTable";
 import { Grid } from "@mui/material";
-import { AppContext } from "../context/AppContext";
 import { useNotifications } from "@toolpad/core";
+import { AppContext } from "../app/AppContext";
+import { RepositoriesTable } from "./components/RepositoriesTable";
+import { useApi } from "../shared/hooks/useApi";
+import { Repository } from "../shared/types/repository";
 
 interface RepositoriesListProps {
   searchQuery?: string;

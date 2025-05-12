@@ -10,12 +10,12 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { Repository } from "../types";
 import {
   LinkOutlined,
   RestaurantOutlined,
   StarOutline,
 } from "@mui/icons-material";
+import { Repository } from "../../shared/types/repository";
 
 interface RepositoriesTableProps {
   repos: Repository[];

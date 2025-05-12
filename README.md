@@ -31,3 +31,7 @@ Next run command `npm test`
 ## Docker support
 
 To run application with docker. From root folder you can `docker run`
+
+### Additional information
+
+- For UI components I used MaterialUI with Martial Icons and @toolpad/core for notification displaying

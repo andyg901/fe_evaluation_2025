@@ -1,22 +1,16 @@
 import { Grid } from "@mui/material";
 import { NotificationsProvider } from "@toolpad/core/useNotifications";
 
-import { SearchBar } from "./SearchBar/SearchBar";
-import { RepositoriesList } from "./RepositoriesList/RepositoriesList";
-import { IAppState } from "./types";
+import { SearchBar } from "../shared/components/SearchBar";
+import { RepositoriesList } from "../repositories/components/RepositoriesList";
 import { useState } from "react";
-import { AppContext } from "./context/AppContext";
+import { AppContext } from "./AppContext";
 
 function App() {
-  const [appState, setAppState] = useState<IAppState>({
-    searchQuery: "",
-  });
-  const setSearchQuery = (query: string) => setAppState({ searchQuery: query });
+  const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <AppContext.Provider
-      value={{ searchQuery: appState.searchQuery, setSearchQuery }}
-    >
+    <AppContext.Provider value={{ searchQuery: searchQuery }}>
       <NotificationsProvider
         slotProps={{
           snackbar: {
@@ -26,7 +20,13 @@ function App() {
       >
         <Grid container spacing={2}>
           <Grid size={12}>
-            <SearchBar />
+            <SearchBar
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              helperText={
+                !searchQuery ? 'Displaying results for "topic:react"' : ""
+              }
+            />
           </Grid>
           <Grid size={12}>
             <RepositoriesList />
