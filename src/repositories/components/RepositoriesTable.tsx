@@ -15,11 +15,7 @@ import {
   RestaurantOutlined,
   StarOutline,
 } from "@mui/icons-material";
-import { Repository } from "../../shared/types/repository";
-
-interface RepositoriesTableProps {
-  repos: Repository[];
-}
+import { useRepositoriesFetch } from "../hooks/useRepositoriesFetch";
 
 const cellAlignment: SxProps = {
   display: "flex",
@@ -27,7 +23,9 @@ const cellAlignment: SxProps = {
   gap: "5px",
 };
 
-export const RepositoriesTable = ({ repos }: RepositoriesTableProps) => {
+export const RepositoriesTable = () => {
+  const { loading, results } = useRepositoriesFetch();
+
   return (
     <TableContainer component={Paper} data-testid="repositories-list:table">
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -39,43 +37,44 @@ export const RepositoriesTable = ({ repos }: RepositoriesTableProps) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {!repos.length && (
+          {loading && (
             <TableRow data-testid="repositories-list:table:loader">
               <TableCell colSpan={3} align="center">
                 <CircularProgress />
               </TableCell>
             </TableRow>
           )}
-          {repos.map((row) => (
-            <TableRow
-              key={row.nameWithOwner}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              data-testid="repositories-list:table:row"
-            >
-              <TableCell
-                scope="row"
-                data-testid="repositories-list:table:cell-name"
+          {!loading &&
+            results.data.map((row) => (
+              <TableRow
+                key={row.nameWithOwner}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                data-testid="repositories-list:table:row"
               >
-                <a href={row.url} target="_blank">
+                <TableCell
+                  scope="row"
+                  data-testid="repositories-list:table:cell-name"
+                >
+                  <a href={row.url} target="_blank" rel="noreferrer">
+                    <Box sx={cellAlignment}>
+                      <LinkOutlined /> {row.nameWithOwner}
+                    </Box>
+                  </a>
+                </TableCell>
+                <TableCell>
                   <Box sx={cellAlignment}>
-                    <LinkOutlined /> {row.nameWithOwner}
+                    <StarOutline />
+                    {row.stargazerCount}
                   </Box>
-                </a>
-              </TableCell>
-              <TableCell>
-                <Box sx={cellAlignment}>
-                  <StarOutline />
-                  {row.stargazerCount}
-                </Box>
-              </TableCell>
-              <TableCell>
-                <Box sx={cellAlignment}>
-                  <RestaurantOutlined />
-                  {row.forkCount}
-                </Box>
-              </TableCell>
-            </TableRow>
-          ))}
+                </TableCell>
+                <TableCell>
+                  <Box sx={cellAlignment}>
+                    <RestaurantOutlined />
+                    {row.forkCount}
+                  </Box>
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </TableContainer>

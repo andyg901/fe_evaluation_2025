@@ -14,11 +14,11 @@ export const SearchBar = ({
 }: SearchBarProps) => {
   return (
     <Grid offset={2} size={8}>
-      <Box sx={{ display: "flex", alignItems: "flex-end" }}>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
         <SearchOutlined sx={{ color: "action.active", mr: 1, my: 0.5 }} />
         <TextField
           id="search-input"
-          label="Search for repository"
+          label="Type to start searching..."
           variant="standard"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
