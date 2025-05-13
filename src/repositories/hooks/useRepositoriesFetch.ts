@@ -36,7 +36,7 @@ export const useRepositoriesFetch = () => {
     return () => {
       clearTimeout(timeout);
     };
-  }, [searchQuery]);
+  }, [searchQuery, getRepositories]);
 
   useEffect(() => {
     // Inform about data fetching issue
@@ -53,7 +53,7 @@ export const useRepositoriesFetch = () => {
         pagination: {},
       });
     }
-  }, [loading, error, data]);
+  }, [loading, error, data, notifications]);
 
   return {
     loading,
