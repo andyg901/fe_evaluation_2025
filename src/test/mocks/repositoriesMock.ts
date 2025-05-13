@@ -8,6 +8,8 @@ export const repositoriesMock = [
       variables: {
         searchQuery: "topic:react",
         first: 10,
+        endCursor: "",
+        startCursor: "",
       },
     },
     result: {
@@ -137,6 +139,8 @@ export const repositoriesMockWithError = [
       variables: {
         searchQuery: "topic:react",
         first: 10,
+        endCursor: "",
+        startCursor: "",
       },
     },
     error: new Error("An error occurred"),

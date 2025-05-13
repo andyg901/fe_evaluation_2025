@@ -53,6 +53,11 @@ export const useRepositoriesFetch = () => {
     setQueryParameters((state) => ({
       ...state,
       searchQuery: searchQuery || "topic:react",
+      // reset pagination state
+      first: PAGE_SIZE,
+      last: undefined,
+      endCursor: "",
+      startCursor: "",
     }));
   }, [searchQuery]);
 

@@ -1,4 +1,4 @@
-import { findByRole, fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing";
 import { RepositoriesPage } from "./RepositoriesPage";
 import {
@@ -8,23 +8,23 @@ import {
 import { NotificationsProvider } from "@toolpad/core";
 
 const mocks = repositoriesMock;
+const mocksOfError = repositoriesMockWithError;
+
+const Page = (mockData: typeof mocks | typeof mocksOfError) => (
+  <NotificationsProvider>
+    <MockedProvider mocks={mockData}>
+      <RepositoriesPage />
+    </MockedProvider>
+  </NotificationsProvider>
+);
 
 it("renders without error", async () => {
-  render(
-    <MockedProvider mocks={mocks}>
-      <RepositoriesPage />
-    </MockedProvider>,
-  );
-
+  render(Page(mocks));
   expect(await screen.findByRole("search-input")).toBeInTheDocument();
 });
 
 it("represent loading state correctly", async () => {
-  render(
-    <MockedProvider mocks={mocks}>
-      <RepositoriesPage />
-    </MockedProvider>,
-  );
+  render(Page(mocks));
 
   const loader = await screen.findByTestId("repositories-list:table:loader");
 
@@ -36,11 +36,7 @@ it("represent loading state correctly", async () => {
 });
 
 it("renders repositories information", async () => {
-  render(
-    <MockedProvider mocks={mocks}>
-      <RepositoriesPage />
-    </MockedProvider>,
-  );
+  render(Page(mocks));
 
   const testRepos = [
     {
@@ -88,11 +84,7 @@ it("renders repositories information", async () => {
 });
 
 it("informs user about default search query", async () => {
-  render(
-    <MockedProvider mocks={mocks}>
-      <RepositoriesPage />
-    </MockedProvider>,
-  );
+  render(Page(mocks));
 
   expect(await screen.findByRole("search-input:helper-text")).toHaveTextContent(
     'Displaying results for "topic:react"',
@@ -100,11 +92,7 @@ it("informs user about default search query", async () => {
 });
 
 it("allows search input interaction", async () => {
-  render(
-    <MockedProvider mocks={mocks}>
-      <RepositoriesPage />
-    </MockedProvider>,
-  );
+  render(Page(mocks));
 
   const helperText = await screen.findByRole("search-input:helper-text");
   expect(helperText).toHaveTextContent('Displaying results for "topic:react"');
@@ -121,13 +109,7 @@ it("allows search input interaction", async () => {
 });
 
 it("displays error notification if query reponds with error", async () => {
-  render(
-    <NotificationsProvider>
-      <MockedProvider mocks={repositoriesMockWithError}>
-        <RepositoriesPage />
-      </MockedProvider>
-    </NotificationsProvider>,
-  );
+  render(Page(mocksOfError));
 
   expect(await screen.findByRole("alert")).toHaveTextContent(
     "There was an error while fetching data",
