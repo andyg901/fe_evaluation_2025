@@ -1,20 +1,9 @@
-# Use the latest LTS version of Node.js
 FROM node:21-alpine
  
-# Set the working directory inside the container
 WORKDIR /app
- 
-# Copy package.json and package-lock.json
-COPY package*.json ./
-
-# Copy env vars
-COPY .env.local ./
- 
-# Install dependencies
-RUN npm install
- 
-# Copy the rest of your application files
 COPY . .
+RUN npm install
+RUN npm run test-unit-cli
  
 # Expose the port your app runs on
 EXPOSE 3000

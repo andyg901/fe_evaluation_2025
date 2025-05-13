@@ -24,7 +24,12 @@ export const SearchBar = ({
           onChange={(e) => setSearchQuery(e.target.value)}
           helperText={helperText}
           fullWidth
-          data-testid="repositories-list:search-input"
+          role="search-input"
+          slotProps={{
+            htmlInput: { "data-testid": "search-input" },
+            formHelperText: { role: "search-input:helper-text" },
+            inputLabel: { role: "search-input:label-text" },
+          }}
         />
       </Box>
     </Grid>

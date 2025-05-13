@@ -28,7 +28,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "cypress run",
+    "test-unit": "react-scripts test --env=jsdom --coverage",
+    "test-unit-cli": "CI=true react-scripts test",
+    "test-e2e": "cypress run",
     "eject": "react-scripts eject",
     "prepare": "husky"
   },

@@ -54,7 +54,7 @@ export const RepositoriesTable = () => {
             {loading && (
               <TableRow data-testid="repositories-list:table:loader">
                 <TableCell colSpan={3} align="center">
-                  <CircularProgress />
+                  <CircularProgress role="load-indicator" />
                 </TableCell>
               </TableRow>
             )}
@@ -75,13 +75,13 @@ export const RepositoriesTable = () => {
                       </Box>
                     </a>
                   </TableCell>
-                  <TableCell>
+                  <TableCell data-testid="repositories-list:table:cell-stargazer-count">
                     <Box sx={cellAlignment}>
                       <StarOutline />
                       {row.stargazerCount}
                     </Box>
                   </TableCell>
-                  <TableCell>
+                  <TableCell data-testid="repositories-list:table:cell-fork-count">
                     <Box sx={cellAlignment}>
                       <RestaurantOutlined />
                       {row.forkCount}
