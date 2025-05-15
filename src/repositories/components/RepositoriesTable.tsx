@@ -1,8 +1,5 @@
 import {
-  Box,
-  CircularProgress,
   Paper,
-  SxProps,
   Table,
   TableBody,
   TableCell,
@@ -10,22 +7,15 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import {
-  LinkOutlined,
-  RestaurantOutlined,
-  StarOutline,
-} from "@mui/icons-material";
 import { useRepositoriesFetch } from "../hooks/useRepositoriesFetch";
 import { RepositoriesTablePagination } from "./RepositoriesTablePagination";
-
-const cellAlignment: SxProps = {
-  display: "flex",
-  alignItems: "center",
-  gap: "5px",
-};
+import { TableRowLoader } from "../../shared/components/TableRowLoader";
+import { useNotifications } from "@toolpad/core";
+import { RepositoriesTableRow } from "./RepositoriesTableRow";
 
 export const RepositoriesTable = () => {
   const {
+    error,
     loading,
     results: {
       data,
@@ -33,6 +23,15 @@ export const RepositoriesTable = () => {
     },
     changePage,
   } = useRepositoriesFetch();
+  const notifications = useNotifications();
+
+  // Inform about data fetching issue
+  if (!loading && error) {
+    notifications.show("There was an error while fetching data", {
+      severity: "error",
+      autoHideDuration: 3000,
+    });
+  }
 
   return (
     <>
@@ -51,44 +50,11 @@ export const RepositoriesTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {loading && (
-              <TableRow data-testid="repositories-list:table:loader">
-                <TableCell colSpan={3} align="center">
-                  <CircularProgress role="load-indicator" />
-                </TableCell>
-              </TableRow>
+            {loading ? (
+              <TableRowLoader colspan={3} />
+            ) : (
+              data.map((dItem) => <RepositoriesTableRow data={dItem} />)
             )}
-            {!loading &&
-              data.map((row) => (
-                <TableRow
-                  key={row.nameWithOwner}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  data-testid="repositories-list:table:row"
-                >
-                  <TableCell
-                    scope="row"
-                    data-testid="repositories-list:table:cell-name"
-                  >
-                    <a href={row.url} target="_blank" rel="noreferrer">
-                      <Box sx={cellAlignment}>
-                        <LinkOutlined /> {row.nameWithOwner}
-                      </Box>
-                    </a>
-                  </TableCell>
-                  <TableCell data-testid="repositories-list:table:cell-stargazer-count">
-                    <Box sx={cellAlignment}>
-                      <StarOutline />
-                      {row.stargazerCount}
-                    </Box>
-                  </TableCell>
-                  <TableCell data-testid="repositories-list:table:cell-fork-count">
-                    <Box sx={cellAlignment}>
-                      <RestaurantOutlined />
-                      {row.forkCount}
-                    </Box>
-                  </TableCell>
-                </TableRow>
-              ))}
           </TableBody>
         </Table>
       </TableContainer>
