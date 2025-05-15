@@ -4,9 +4,7 @@ describe("Repository list", () => {
 
     cy.get('[data-testid="repositories-list:table"]').should("exist");
 
-    cy.get('[data-testid="repositories-list:table:loader"]').should(
-      "not.exist",
-    );
+    cy.get('[data-testid="table:loader"]').should("not.exist");
 
     cy.get('[data-testid="repositories-list:table:row"]').should(
       "have.length",

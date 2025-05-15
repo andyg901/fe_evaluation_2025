@@ -26,7 +26,7 @@ it("renders without error", async () => {
 it("represent loading state correctly", async () => {
   render(Page(mocks));
 
-  const loader = await screen.findByTestId("repositories-list:table:loader");
+  const loader = await screen.findByTestId("table:loader");
 
   expect(loader).toBeInTheDocument();
   expect(
